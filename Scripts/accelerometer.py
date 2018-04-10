@@ -4,6 +4,13 @@ import smbus
 import math
 import time
 
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(12, GPIO.OUT, initial=GPIO.LOW)
+
+
 # Power management registers
 power_mgmt_1 = 0x6b
 power_mgmt_2 = 0x6c
@@ -55,6 +62,9 @@ while True:
     accel_xout = read_word_2c(0x3b)
     accel_yout = read_word_2c(0x3d)
     accel_zout = read_word_2c(0x3f)
+
+    if conditionCount >= 5:
+        GPIO.output(12, GPIO.HIGH)
 
     if conditionMode == False or conditionCount >= 15:
         print "RAZ"

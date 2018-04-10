@@ -2,8 +2,8 @@
 # Filename: text.py
 import serial
 import time
-ser = serial.Serial("/dev/ttyS0",115200)
-W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+8613800755500\"\r\n", "AT+CMGS=\"18825271704\"\r\n","helloworld"]
+ser = serial.Serial("/dev/ttyUSB0",115200)
+W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+33689004000\"\r\n", "AT+CMGS=\"0623761142\"\r\n","helloworld"]
 ser.write(W_buff[0])
 ser.flushInput()
 data = ""
