@@ -14,6 +14,7 @@ while True:
         response = client.recv(255)
         if response != "":
                 print response
+                socket.sendall(u"TEST")
 
 print "Close"
 client.close()
