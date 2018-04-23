@@ -16,7 +16,7 @@ while True:
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("localhost", 1111))
+s.connect(("78.246.39.51", 5001))
 
 print("Connexion au serveur")
 command = "raspberry connection"
