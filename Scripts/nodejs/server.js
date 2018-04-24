@@ -42,13 +42,16 @@ io.on('connection', function(client){
 
         var string = JSON.stringify(data);
         var objectValue = JSON.parse(string);
-        console.log(objectValue['valAlarm']);
 
-        io.emit('return rpi connection', { valAlarm: "data[0]", valLock: "data[1]", valPosition: "data[2]" });
+        io.emit('return rpi connection', { valAlarm: objectValue['valAlarm'], valLock: objectValue['valLock'], valPosition: objectValue['valPosition'] });
     });
     client.on('rpi position', function(data){
         console.log('rpi position');
-        io.emit('return rpi position', { valLatitude: data[0], valLongitude: data[1] });
+
+        var string = JSON.stringify(data);
+        var objectValue = JSON.parse(string);
+        
+        io.emit('return rpi position', { valLatitude: objectValue['valLatitude'], valLongitude: objectValue['valLongitude'] });
     });
     client.on('rpi alarm', function(data){
         console.log('rpi alarm');
