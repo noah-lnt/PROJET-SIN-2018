@@ -39,6 +39,7 @@ io.on('connection', function(client){
     // RPI function
     client.on('rpi connection', function(data){
         console.log('rpi connection');
+        console.log(data)
         console.log(data[0])
         console.log(data[1])
         console.log(data[2])
