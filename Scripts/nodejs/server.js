@@ -39,6 +39,9 @@ io.on('connection', function(client){
     // RPI function
     client.on('rpi connection', function(data){
         console.log('rpi connection');
+        console.log(data[0])
+        console.log(data[1])
+        console.log(data[2])
         io.emit('return rpi connection', { valAlarm: data[0], valLock: data[1], valPosition: data[2] });
     });
     client.on('rpi position', function(data){
