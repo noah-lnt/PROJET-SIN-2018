@@ -10,6 +10,20 @@ import smbus
 import math
 import time
 
+
+name = "SCOOTER NOAH"
+global conditionAlarm
+global conditionLock
+global conditionPosition
+conditionAlarm = "0"
+conditionLock = "0"
+conditionPosition = "0"
+
+global valLatitude
+global valLongitude
+valLatitude = "49.119309"
+valLongitude = "6.175716"
+
 class Concur(threading.Thread):
     def __init__(self):
         self.stopped = False
@@ -72,6 +86,9 @@ class Concur(threading.Thread):
 
 			    if conditionCount >= 5:
 			        GPIO.output(12, GPIO.HIGH)
+			        global conditionAlarm
+					conditionAlarm = "1"
+					socketIO.emit('rpi connection', { u'valName': name, u'valAlarm': conditionAlarm, u'valLock': conditionLock, u'valPosition': conditionPosition })
 
 			    if conditionMode == False or conditionCount >= 15:
 			        print "RAZ"
@@ -107,18 +124,7 @@ class Concur(threading.Thread):
 
 			    time.sleep(0.5)
 
-name = "SCOOTER NOAH"
-global conditionAlarm
-global conditionLock
-global conditionPosition
-conditionAlarm = "0"
-conditionLock = "0"
-conditionPosition = "0"
-
-global valLatitude
-global valLongitude
-valLatitude = "49.119309"
-valLongitude = "6.175716"
+inst = Concur()
 
 
 def client_connect(data):
@@ -157,6 +163,7 @@ def client_unlock(data):
 	conditionLock = "0"
 	socketIO.emit('rpi connection', { u'valName': name, u'valAlarm': conditionAlarm, u'valLock': conditionLock, u'valPosition': conditionPosition })
 	inst.stop()
+	GPIO.output(12, GPIO.LOW)
 
 
 def on_reconnect():
