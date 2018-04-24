@@ -41,8 +41,8 @@ io.on('connection', function(client){
         console.log('rpi connection');
         var test = JSON.stringify(data);
         console.log(data)
-        console.log(test[0])
-        console.log(test[1])
+        console.log(data[0][1])
+        console.log(data[0])
         console.log(test[2])
         io.emit('return rpi connection', { valAlarm: "data[0]", valLock: "data[1]", valPosition: "data[2]" });
     });
