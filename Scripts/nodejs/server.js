@@ -40,7 +40,7 @@ io.on('connection', function(client){
     client.on('rpi connection', function(data){
         console.log('rpi connection');
         var test = JSON.stringify(data);
-        console.log(test)
+        console.log(data)
         console.log(test[0])
         console.log(test[1])
         console.log(test[2])

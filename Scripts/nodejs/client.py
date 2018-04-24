@@ -2,7 +2,7 @@ from socketIO_client import SocketIO, LoggingNamespace
 
 def on_connect(data):
     print('connect')
-    socketIO.emit('rpi connection', { u'valAlarm': "test", u'valLock': "test", u'valPosition': "test" })
+    socketIO.emit('rpi connection', ({ u'valAlarm': "test", u'valLock': "test", u'valPosition': "test" },))
 
 def on_disconnect():
     print('disconnect')
