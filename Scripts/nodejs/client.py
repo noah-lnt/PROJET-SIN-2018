@@ -1,19 +1,18 @@
-from socketio_client.manager import Manager
+from socketIO_client import SocketIO, LoggingNamespace
 
-import gevent
-from gevent import monkey;
-monkey.patch_socket()
+def on_connect():
+    print('connect')
 
-io = Manager('localhost', 5000)
-chat = io.socket('/')
+def on_disconnect():
+    print('disconnect')
 
-@chat.on_connect()
-def chat_connect():
-    chat.emit("Hello")
+def on_reconnect():
+    print('reconnect')
 
-@chat.on('rpi connection')
-def chat_welcome():
-    chat.emit({ valAlarm: "etst", valLock: "test", valPosition: "test" })
+def on_aaa_response(*args):
+    print('on_aaa_response', args)
 
-io.connect()
-gevent.wait()
+socketIO = SocketIO('127.0.0.1', 5000, LoggingNamespace)
+socketIO.on('connect', on_connect)
+socketIO.on('disconnect', on_disconnect)
+socketIO.on('reconnect', on_reconnect)
