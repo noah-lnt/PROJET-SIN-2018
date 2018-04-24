@@ -39,11 +39,11 @@ io.on('connection', function(client){
     // RPI function
     client.on('rpi connection', function(data){
         console.log('rpi connection');
-        var test = JSON.stringify(data);
-        console.log(data)
-        console.log(data[0][1])
-        console.log(data[0])
-        console.log(test[2])
+
+        var string = JSON.stringify(data);
+        var objectValue = JSON.parse(string);
+        console.log(objectValue['valAlarm']);
+
         io.emit('return rpi connection', { valAlarm: "data[0]", valLock: "data[1]", valPosition: "data[2]" });
     });
     client.on('rpi position', function(data){
