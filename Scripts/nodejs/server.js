@@ -6,7 +6,7 @@ io.on('connection', function(client){
     // ANDROID function
     client.on('client connection', function(data){
         console.log('client connection');
-        client.emit('return client connection', { data: 'connection' });
+        io.emit('return client connection', { data: 'connection' });
     });
 
     client.on('client start alarm', function(data){

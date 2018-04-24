@@ -14,9 +14,8 @@ def on_aaa_response(*args):
 
 socketIO = SocketIO('78.246.39.51', 5000, LoggingNamespace)
 
-while True:
-	socketIO.on('return client connection', on_connect)
-	socketIO.on('disconnect', on_disconnect)
-	socketIO.on('reconnect', on_reconnect)
+socketIO.on('return client connection', on_connect)
+socketIO.on('disconnect', on_disconnect)
+socketIO.on('reconnect', on_reconnect)
 
-	socketIO.wait(seconds=1)
+socketIO.wait()
