@@ -1,22 +1,28 @@
 from socketIO_client import SocketIO, LoggingNamespace
 
-def on_connect(data):
-    print('connect')
-    socketIO.emit('rpi connection', { u'valAlarm': "test", u'valLock': "test", u'valPosition': "test" })
+name = "SCOOTER NOAH"
+conditionAlarm = "0"
+conditionLock = "0"
+conditionPosition = "0"
 
-def on_disconnect():
-    print('disconnect')
+valLatitude = "49.119309"
+valLongitude = "6.175716"
+
+def client_connect(data):
+    print('client connect')
+    socketIO.emit('rpi connection', { u'valAlarm': name, u'valAlarm': conditionAlarm, u'valLock': on_connect, u'valPosition': conditionPosition })
+
+def client_postion(data):
+    socketIO.emit('rpi position', { u'valLatitude': valLatitude, u'valLongitude': valLongitude })
 
 def on_reconnect():
     print('reconnect')
 
-def on_aaa_response(*args):
-    print('on_aaa_response', args)
-
 socketIO = SocketIO('78.246.39.51', 5000, LoggingNamespace)
 
-socketIO.on('return client connection', on_connect)
-socketIO.on('disconnect', on_disconnect)
+socketIO.on('return client connection', client_connect)
+socketIO.on('return client position', client_postion)
+
 socketIO.on('reconnect', on_reconnect)
 
 socketIO.wait()
