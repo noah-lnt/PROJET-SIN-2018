@@ -4,8 +4,8 @@ import gevent
 from gevent import monkey;
 monkey.patch_socket()
 
-io = Manager('localhost', 5000)
-chat = io.socket('/')
+io = Manager('http', '192.168.0.33', 5000)
+
 
 @chat.on_connect()
 def chat_connect():
