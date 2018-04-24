@@ -43,6 +43,8 @@ io.on('connection', function(client){
         var string = JSON.stringify(data);
         var objectValue = JSON.parse(string);
 
+        console.log(vobjectValue['valName'] +" - "+ objectValue['valAlarm'] +" - "+ objectValue['valLock'] +" - "+ objectValue['valPosition'])
+
         io.emit('return rpi connection', { valName: objectValue['valName'], valAlarm: objectValue['valAlarm'], valLock: objectValue['valLock'], valPosition: objectValue['valPosition'] });
     });
     client.on('rpi position', function(data){
