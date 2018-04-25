@@ -4,7 +4,7 @@ import serial
 import time
 ser = serial.Serial("/dev/ttyUSB0",115200)
 
-W_buff = ["AT+CGNSPWR=1\r\n", "AT+CGNSSEQ=\"RMC\"\r\n", "AT+CGNSINF\r\n", "AT+CGNSURC=2\r\n","AT+CGNSTST=1\r\n"]
+W_buff = ["AT+CGNSPWR=1\r\n", "AT+CGNSSEQ=\"RMC\"\r\n", "AT+CGNSINF\r\n", "AT+CGNSURC=1\r\n"]
 ser.write(W_buff[0])
 ser.flushInput()
 data = ""

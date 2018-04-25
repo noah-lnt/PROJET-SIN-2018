@@ -9,6 +9,7 @@ import threading
 import smbus
 import math
 import time
+import serial
 
 
 name = "SCOOTER NOAH"
@@ -23,6 +24,43 @@ global valLatitude
 global valLongitude
 valLatitude = "49.119309"
 valLongitude = "6.175716"
+
+class GetPosition(threading.Thread):
+    def __init__(self):
+        self.stopped = False
+        threading.Thread.__init__(self)
+
+    def run(self):
+        i = 0
+        while not self.stopped:
+                        print "test"
+                        ser = serial.Serial("/dev/ttyUSB0",115200)
+			W_buff = ["AT+CGNSPWR=1\r\n", "AT+CGNSSEQ=\"RMC\"\r\n", "AT+CGNSURC=1\r\n", "AT+CGNSINF\r\n"]
+			ser.write(W_buff[0])
+			time.sleep(0.5)
+
+			ser.write(W_buff[1])
+			time.sleep(0.5)
+			print ser.readline()
+			ser.write(W_buff[2])
+
+			while True:
+                           
+			    time.sleep(3)
+			    positionGPS = ser.readline(ser.inWaiting()).split("\n")
+			    print len(positionGPS)
+			    if "+UGNSINF" in positionGPS[0]:
+                                print positionGPS[0]
+			        splitPositionGPS = positionGPS[0].split(",")
+			        positionLatitude = splitPositionGPS[3]
+			        positionLongitude =  splitPositionGPS[4]
+			        print positionLatitude +" "+positionLongitude
+			        if positionLatitude != "" and positionLongitude != "":
+                                    socketIO.emit('rpi position', { u'valLatitude': positionLatitude, u'valLongitude': positionLongitude })
+			    else:
+			        print "NO"
+		
+getPosition = GetPosition()
 
 class Concur(threading.Thread):
     def __init__(self):
@@ -87,8 +125,8 @@ class Concur(threading.Thread):
 			    if conditionCount >= 5:
 			        GPIO.output(12, GPIO.HIGH)
 			        global conditionAlarm
-					conditionAlarm = "1"
-					socketIO.emit('rpi connection', { u'valName': name, u'valAlarm': conditionAlarm, u'valLock': conditionLock, u'valPosition': conditionPosition })
+				conditionAlarm = "1"
+				socketIO.emit('rpi connection', { u'valName': name, u'valAlarm': conditionAlarm, u'valLock': conditionLock, u'valPosition': conditionPosition })
 
 			    if conditionMode == False or conditionCount >= 15:
 			        print "RAZ"
@@ -135,7 +173,8 @@ def client_startPosition(data):
 	global conditionPosition
 	conditionPosition = "1"
 	socketIO.emit('rpi connection', { u'valName': name, u'valAlarm': conditionAlarm, u'valLock': conditionLock, u'valPosition': conditionPosition })
-	socketIO.emit('rpi position', { u'valLatitude': valLatitude, u'valLongitude': valLongitude })
+	print "testttt"
+	getPosition.start()
 
 def client_stopPosition(data):
 	global conditionPosition
